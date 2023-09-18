@@ -5,13 +5,9 @@ import { addressRepository, CreateAddressParams, enrollmentRepository, CreateEnr
 import { exclude } from '@/utils/prisma-utils';
 
 // TODO - Receber o CEP por parâmetro nesta função.
-async function getAddressFromCEP(cep: string) {
   // FIXME: está com CEP fixo!
-  const result = await request.get(`${process.env.VIA_CEP_API}/${cep}/json/`);
-
   // TODO: Tratar regras de negócio e lanças eventuais erros
 
-  if(result.data.erro) throw invalidDataError('This zip code does not exist')
 
   type CepFormatado = {
     logradouro: string;
@@ -50,6 +46,8 @@ async function getAddressFromCEP(cep: string) {
   // FIXME: não estamos interessados em todos os campos
   return cepFormato;
 }
+
+
 
 async function getOneWithAddressByUserId(userId: number): Promise<GetOneWithAddressByUserIdResult> {
   const enrollmentWithAddress = await enrollmentRepository.findWithAddressByUserId(userId);
