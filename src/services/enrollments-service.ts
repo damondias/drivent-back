@@ -20,12 +20,12 @@ import { exclude } from '@/utils/prisma-utils';
   async function validatingZipCode(cep: string) {
     const result = await request.get(`${process.env.VIA_CEP_API}/${cep}/json/`);
 
-  if (result.status === 200) {
-    if (result.data.erro === true) {
-      throw invalidDataError('Válido mas inexistente');
-    } else {
-      return result.data;
-    }
+    if (result.status === 200) {
+        if (result.data.erro === true) {
+          throw invalidDataError('Válido mas inexistente');
+        } else {
+          return result.data;
+        }
     } else if (result.status === 400) {
       throw invalidDataError('Format address invalid!');
     }
@@ -33,18 +33,18 @@ import { exclude } from '@/utils/prisma-utils';
   
   async function getAddressFromCEP(cep: string) {
   
-  const result = await validatingZipCode(cep);
+    const result = await validatingZipCode(cep);
 
-  const cepFormato: CepFormatado  = {
-    logradouro: result.logradouro,
-    complemento: result.complemento,
-    bairro: result.bairro,
-    cidade: result.localidade,
-    uf: result.uf,
-  };
+    const cepFormato: CepFormatado  = {
+      logradouro: result.logradouro,
+      complemento: result.complemento,
+      bairro: result.bairro,
+      cidade: result.localidade,
+      uf: result.uf,
+    };
 
-  // FIXME: não estamos interessados em todos os campos
-  return cepFormato;
+    // FIXME: não estamos interessados em todos os campos
+    return cepFormato;
 }
 
 
